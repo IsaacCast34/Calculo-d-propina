@@ -35,7 +35,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.rememberScrollState
 import androidx.annotation.StringRes
-
+import androidx.compose.ui.text.input.ImeAction
 
 
 class MainActivity : ComponentActivity() {
@@ -75,12 +75,19 @@ fun TipTimeLayout() {
                 .align(alignment = Alignment.Start)
         )
         EditNumberField(
-            value = amountInput,
-            onValueChange = { amountInput = it },
+            label = R.string.tip_percentage,
+            value = tipInput,
+            onValueChange = { tipInput = it },
+            keyboardOptions = KeyboardOptions.Default.copy(
+                keyboardType = KeyboardType.Number,
+                imeAction = ImeAction.Done
+            ),
             modifier = Modifier
                 .padding(bottom = 32.dp)
                 .fillMaxWidth()
         )
+
+
         Text(
             text = stringResource(R.string.tip_amount, tip),
             style = MaterialTheme.typography.displaySmall
@@ -90,14 +97,14 @@ fun TipTimeLayout() {
 }
 
 @Composable
-fun EditNumberField(label: R.string.bill_amount, value: tipInput, onValueChange:{ amountInput = it },  modifier = Modifier.padding(bottom = 32.dp).fillMaxWidth()
-)  {
+fun EditNumberField(label: Int, value: String, onValueChange: (String) -> Unit, keyboardOptions: KeyboardOptions, modifier: Modifier = Modifier
+) {
     TextField(
         value = value,
         onValueChange = onValueChange,
         singleLine = true,
-        label = { Text(stringResource(label)) },
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+        label = { Text(text = stringResource(label)) },
+        keyboardOptions = keyboardOptions,
         modifier = modifier
     )
 }
