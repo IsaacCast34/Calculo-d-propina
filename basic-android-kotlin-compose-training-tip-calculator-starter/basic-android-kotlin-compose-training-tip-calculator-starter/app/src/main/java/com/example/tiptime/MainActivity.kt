@@ -34,6 +34,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.rememberScrollState
+import androidx.annotation.StringRes
 
 
 
@@ -47,17 +48,16 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                 ) {
                     TipTimeLayout()
-                }
-            }
-        }
-    }
-}
+                } } } } }
 
 @Composable
 fun TipTimeLayout() {
+    var tipInput by remember { mutableStateOf("") }
+    val tipPercent = tipInput.toDoubleOrNull() ?: 0.0
+
     var amountInput by remember { mutableStateOf("") }
     val amount = amountInput.toDoubleOrNull() ?: 0.0
-    val tip = calculateTip(amount)
+    val tip = calculateTip(amount , tipPercent)
 
     Column(
         modifier = Modifier
@@ -90,16 +90,13 @@ fun TipTimeLayout() {
 }
 
 @Composable
-fun EditNumberField(
-    value: String,
-    onValueChange: (String) -> Unit,
-    modifier: Modifier = Modifier
-) {
+fun EditNumberField(label: R.string.bill_amount, value: tipInput, onValueChange:{ amountInput = it },  modifier = Modifier.padding(bottom = 32.dp).fillMaxWidth()
+)  {
     TextField(
         value = value,
         onValueChange = onValueChange,
         singleLine = true,
-        label = { Text(stringResource(R.string.bill_amount)) },
+        label = { Text(stringResource(label)) },
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
         modifier = modifier
     )
