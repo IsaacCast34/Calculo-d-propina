@@ -51,10 +51,14 @@ class MainActivity : ComponentActivity() {
         setContent {
             TipTimeTheme {
                 Surface(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier.fillMaxSize()
                 ) {
                     TipTimeLayout()
-                } } } } }
+                }
+            }
+        }
+    }
+}
 
 @Composable
 fun TipTimeLayout() {
@@ -105,7 +109,7 @@ fun TipTimeLayout() {
             roundUp = roundUp,
             onRoundUpChanged = { roundUp = it },
             modifier = Modifier.padding(bottom = 32.dp)
-        Text(
+        )(
             text = stringResource(R.string.tip_amount, tip),
             style = MaterialTheme.typography.displaySmall
         )
@@ -114,36 +118,46 @@ fun TipTimeLayout() {
 }
 
 @Composable
-fun EditNumberField(  @StringRes label: Int, @DrawableRes leadingIcon: Int, keyboardOptions: KeyboardOptions, value: String, onValueChanged: (String) -> Unit, modifier: Modifier = Modifier
+fun EditNumberField(
+    @StringRes label: Int,
+    value: String,
+    onValueChange: (String) -> Unit,
+    keyboardOptions: KeyboardOptions,
+    leadingIcon: @Composable (() -> Unit)? = null,
+    modifier: Modifier = Modifier
 ) {
     TextField(
         value = value,
-        leadingIcon = { Icon(painter = painterResource(id = leadingIcon), null) },
         onValueChange = onValueChange,
         singleLine = true,
         label = { Text(text = stringResource(label)) },
+        leadingIcon = leadingIcon,
         keyboardOptions = keyboardOptions,
         modifier = modifier
     )
 }
+
 
 @Composable
 fun RoundTheTipRow(
     roundUp: Boolean,
     onRoundUpChanged: (Boolean) -> Unit,
     modifier: Modifier = Modifier
-
 ) {
-    Row(modifier = modifier.fillMaxWidth().padding(vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
         Text(
             text = stringResource(R.string.round_up_tip),
             modifier = Modifier.weight(1f)
         )
-        Switch(modifier = modifier
-            .fillMaxWidth()
-            .wrapContentWidth(Alignment.End
-            checked = roundUP,
-            onCheckedChange = onRoundUpChanged
+        Switch(
+            checked = roundUp,
+            onCheckedChange = onRoundUpChanged,
+            modifier = Modifier.wrapContentWidth(Alignment.End)
         )
     }
 }
